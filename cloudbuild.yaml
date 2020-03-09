@@ -8,6 +8,9 @@ steps:
       echo "***********************"
       echo "$BRANCH_NAME"
       echo "***********************"
+      mv terraform.tfvars terraform.temp
+      sed 's/_PROJECT_ID/${_PROJECT_ID}/g' terraform.temp > terraform.tfvars
+      cat terraform.tfvars
       mv main.tf main.temp
       sed 's/_ENV_/$BRANCH_NAME/g' main.temp > main.tf
       cat main.tf
