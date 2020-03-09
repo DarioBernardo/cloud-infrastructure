@@ -6,10 +6,10 @@ variable "region" {
   type = string
 }
 
-variable "cluster-name" {
+variable "default-subscription-name" {
   type = string
 }
 
-variable "credentials-email" {
+variable "topic-name" {
   type = string
 }

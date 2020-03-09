@@ -8,9 +8,51 @@ This repo contain a sample infrastructure to connect a kubernetes cluster and a 
     - `google_sql_database_instance`
     - `google_sql_database`
     - `google_sql_user`
- - `vpc` module contains:
-    - `google_compute_network`
-    - `google_compute_global_address`
-    - `google_service_networking_connection`
-    - `google_compute_subnetwork`
-    - `google_compute_firewall` x2
+ - `cloudbuild_trigger`
+    - `google_cloudbuild_trigger`
+ - `storage`
+    - `google_storage_bucket`
+ - `pub_sub`
+    - `google_pubsub_topic`
+    - `google_pubsub_subscription`
+
+### Commands:
+
+Init the workspace:
+```
+terraform init
+```
+
+Create new dev (or prod) workspace:
+```
+terraform workspace new dev
+```
+
+List available workspaces, and check that the correct one is selected:
+```
+terraform workspace list
+```
+
+Select the right workspace if not already so:
+```
+terraform workspace select dev
+```
+
+Do the terraform magic:
+```
+terraform plan
+```
+```
+terraform apply -auto-approve
+```
+
+List and show terraform state file
+```
+terraform state list
+terraform state show
+```
+
+If you want to delete:
+```
+terraform destroy
+```

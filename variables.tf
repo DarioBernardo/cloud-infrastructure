@@ -26,3 +26,19 @@ variable "region" {
 variable "cluster-name" {
   type = string
 }
+
+variable "credentials-email" {
+  type = string
+}
+
+variable "default-subscription-name" {
+  type = string
+}
+
+variable "topic-name" {
+  type = string
+}
+
+variable "bucket-name" {
+  type = string
+}
