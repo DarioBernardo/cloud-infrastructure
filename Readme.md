@@ -56,3 +56,21 @@ If you want to delete:
 ```
 terraform destroy
 ```
+## NOTE:
+if you want  to use the cloud trigger and `cloudbuild.yaml`, you need to set up a  _PROJECT_ID env variable.
+
+## NOTE 2: 
+If you  are using cloud build trigger and `cloudbuild.yaml`. 
+To allow Cloud Build service account to run Terraform scripts with the goal of managing Google Cloud resources, you need to grant it appropriate access to your project. For simplicity, project editor access is granted in this tutorial. But when the project editor role has a wide-range permission, in production environments you must follow your company's IT security best practices, usually providing least-privileged access.
+
+In Cloud Shell, retrieve the email for your project's Cloud Build service account:
+
+```
+CLOUDBUILD_SA="$(gcloud projects describe $PROJECT_ID \
+    --format 'value(projectNumber)')@cloudbuild.gserviceaccount.com"
+```
+Grant the required access to your Cloud Build service account:
+```
+gcloud projects add-iam-policy-binding $PROJECT_ID \
+    --member serviceAccount:$CLOUDBUILD_SA --role roles/editor 
+```
