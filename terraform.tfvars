@@ -1,4 +1,5 @@
-project-id="_PROJECT_ID"
+//project-id="_PROJECT_ID"
+project-id="data-science-italy"
 database-instance-name="instance-test"
 database-username="test-username"
 database-password="mySecretPass"
