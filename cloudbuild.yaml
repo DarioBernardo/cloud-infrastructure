@@ -15,7 +15,7 @@ steps:
       sed 's/_ENV_/$BRANCH_NAME/g' main.temp > main.tf
       cat main.tf
 - id: 'tf init'
-  name: 'hashicorp/terraform:0.11.14'
+  name: 'hashicorp/terraform:0.12.18'
   entrypoint: 'sh'
   args:
   - '-c'
@@ -27,7 +27,7 @@ steps:
       terraform init
 # [START tf-plan]
 - id: 'tf plan'
-  name: 'hashicorp/terraform:0.11.14'
+  name: 'hashicorp/terraform:0.12.18'
   entrypoint: 'sh'
   args:
   - '-c'
