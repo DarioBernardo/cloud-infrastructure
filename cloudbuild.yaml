@@ -9,7 +9,18 @@ steps:
       echo "$BRANCH_NAME"
       echo "***********************"
       mv terraform.tfvars terraform.temp
-      sed 's/_PROJECT_ID/${_PROJECT_ID}/g' terraform.temp > terraform.tfvars
+      sed 's/_PROJECT_ID/${_PROJECT_ID}/g' terraform.temp |
+      sed 's/_DB_INSTANCE_NAME/${_DB_INSTANCE_NAME}/g' | \
+      sed 's/_DB_USERNAME/${_DB_USERNAME}/g' | \
+      sed 's/_DB_PASS/${_DB_PASS}/g' | \
+      sed 's/_DB_SCHEMA_NAME/${_DB_SCHEMA_NAME}/g' | \
+      sed 's/_CLUSTER_NAME/${_CLUSTER_NAME}/g' | \
+      sed 's/_CLUSTER_USERNAME/${_CLUSTER_USERNAME}/g' | \
+      sed 's/_CLUSTER_PASSWORD/${_CLUSTER_PASSWORD}/g' | \
+      sed 's/_SERVICE_ACCOUNT_EMAIL/${_SERVICE_ACCOUNT_EMAIL}/g' | \
+      sed 's/_SUBSCRIPTION_NAME/${_SUBSCRIPTION_NAME}/g' | \
+      sed 's/_TOPIC_NAME/${_TOPIC_NAME}/g' | \
+      sed "s/_BUCKET_NAME/${_BUCKET_NAME}/g" > terraform.tfvars
       cat terraform.tfvars
       mv main.tf main.temp
       sed 's/_ENV_/$BRANCH_NAME/g' main.temp > main.tf
