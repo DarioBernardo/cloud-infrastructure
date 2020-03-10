@@ -1,8 +1,17 @@
 terraform {
   backend "gcs" {
     bucket = "nlp-infrastructure-state"
-    prefix = "example/_ENV_"
-//    prefix = "example/master"
+    prefix = "app_name"
+  }
+}
+
+data "terraform_remote_state" "project_id" {
+  backend   = "gcs"
+  workspace = terraform.workspace
+
+  config = {
+    bucket = "nlp-infrastructure-state"
+    prefix = "terraform-project-states"
   }
 }
 
