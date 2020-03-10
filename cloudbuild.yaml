@@ -1,0 +1,58 @@
+steps:
+- id: 'branch name'
+  name: 'alpine'
+  entrypoint: 'sh'
+  args:
+  - '-c'
+  - |
+      echo "***********************"
+      echo "$BRANCH_NAME"
+      echo "***********************"
+      mv terraform.tfvars terraform.temp
+      sed 's/_PROJECT_ID/${_PROJECT_ID}/g' terraform.temp > terraform.tfvars
+      cat terraform.tfvars
+      mv main.tf main.temp
+      sed 's/_ENV_/$BRANCH_NAME/g' main.temp > main.tf
+      cat main.tf
+- id: 'tf init'
+  name: 'hashicorp/terraform:0.12.18'
+  entrypoint: 'sh'
+  args:
+  - '-c'
+  - |
+      echo ""
+      echo "*************** TERRAFORM INIT ******************"
+      echo "********* At environment: $BRANCH_NAME **********"
+      echo "*************************************************"
+      terraform init
+# [START tf-workspace]
+- id: 'tf workspace'
+  name: 'hashicorp/terraform:0.12.18'
+  entrypoint: 'sh'
+  args:
+  - '-c'
+  - |
+    terraform workspace select $BRANCH_NAME || terraform workspace new $BRANCH_NAME
+# [START tf-plan]
+- id: 'tf plan'
+  name: 'hashicorp/terraform:0.12.18'
+  entrypoint: 'sh'
+  args:
+  - '-c'
+  - |
+      echo ""
+      echo "*************** TERRAFORM INIT ******************"
+      echo "********* At environment: $BRANCH_NAME **********"
+      echo "*************************************************"
+      terraform plan
+# [END tf-plan]
+
+# [START tf-apply]
+- id: 'tf apply'
+  name: 'hashicorp/terraform:0.12.18'
+  entrypoint: 'sh'
+  args:
+  - '-c'
+  - |
+      terraform apply -auto-approve
+# [END tf-apply]

@@ -1,11 +1,24 @@
+provider "random" {}
+
+resource "random_id" "id" {
+  byte_length = 4
+  prefix      = "${var.cluster-name}-${terraform.workspace}-"
+}
+
 resource "google_container_cluster" "cluster" {
-  name = var.cluster-name
+  name = random_id.id.hex
   location = var.region
   initial_node_count = 1
   project = var.project-id
-  network = var.private-network.self_link # google_compute_network.private_network.self_link
-  subnetwork = var.subnet-name
-  depends_on = [var.private-vpc-connection] # [google_service_networking_connection.private_vpc_connection]
+
+  master_auth {
+    username = var.cluster-username
+    password = var.cluster-password
+
+    client_certificate_config {
+      issue_client_certificate = false
+    }
+  }
 }
 
 provider "kubernetes" {
@@ -15,6 +28,19 @@ provider "kubernetes" {
   client_certificate     = base64decode(google_container_cluster.cluster.master_auth.0.client_certificate)
   client_key             = base64decode(google_container_cluster.cluster.master_auth.0.client_key)
   cluster_ca_certificate = base64decode(google_container_cluster.cluster.master_auth.0.cluster_ca_certificate)
-  load_config_file = "false"
 //  alias = "default"
+  load_config_file = "false"
+}
+
+resource "google_service_account_key" "mykey" {
+  service_account_id = "projects/${var.project-id}/serviceAccounts/${var.credentials-email}"
+}
+
+resource "kubernetes_secret" "google-application-credentials" {
+  metadata {
+    name = "cloudsql-instance-credentials" # The name of the secret
+  }
+  data = {
+    "credentials.json" = base64decode(google_service_account_key.mykey.private_key)
+  }
 }

@@ -6,15 +6,18 @@ variable "region" {
   type = string
 }
 
-variable "private-network" {
-}
-
-variable "private-vpc-connection" {
-}
-
-variable "subnet-name" {
-}
-
 variable "cluster-name" {
+  type = string
+}
+
+variable "cluster-username" {
+  type = string
+}
+
+variable "cluster-password" {
+  type = string
+}
+
+variable "credentials-email" {
   type = string
 }
