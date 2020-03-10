@@ -10,6 +10,14 @@ variable "cluster-name" {
   type = string
 }
 
+variable "cluster-username" {
+  type = string
+}
+
+variable "cluster-password" {
+  type = string
+}
+
 variable "credentials-email" {
   type = string
 }

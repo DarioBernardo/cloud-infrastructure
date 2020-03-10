@@ -2,7 +2,8 @@ terraform {
   backend "gcs" {
     bucket = "nlp-infrastructure-state"
 //    prefix = "example/_ENV_"
-    prefix = "example/master"
+    prefix = "example/with_sidecar_no_vpc"
+//    prefix = "example/master"
   }
 }
 
@@ -19,19 +20,21 @@ provider "google" {
   region = var.region
 }
 
-//module "database" {
-//  source                     = "./database"
-//  region                     = var.region
-//  database-instance-name     = var.database-instance-name
-//  database-password          = var.database-password
-//  database-username          = var.database-username
-//  database-schema-name       = var.database-schema-name
-//}
+module "database" {
+  source                     = "./database"
+  region                     = var.region
+  database-instance-name     = var.database-instance-name
+  database-password          = var.database-password
+  database-username          = var.database-username
+  database-schema-name       = var.database-schema-name
+}
 
 module "kubernetes-cluster" {
   source = "./gke"
   region = var.region
   cluster-name = var.cluster-name
+  cluster-username = var.cluster-username
+  cluster-password = var.cluster-password
   project-id = var.project-id
   credentials-email = var.credentials-email
   }

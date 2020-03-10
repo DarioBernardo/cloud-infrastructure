@@ -10,6 +10,15 @@ resource "google_container_cluster" "cluster" {
   location = var.region
   initial_node_count = 1
   project = var.project-id
+
+  master_auth {
+    username = var.cluster-username
+    password = var.cluster-password
+
+    client_certificate_config {
+      issue_client_certificate = false
+    }
+  }
 }
 
 provider "kubernetes" {
@@ -20,6 +29,7 @@ provider "kubernetes" {
   client_key             = base64decode(google_container_cluster.cluster.master_auth.0.client_key)
   cluster_ca_certificate = base64decode(google_container_cluster.cluster.master_auth.0.cluster_ca_certificate)
 //  alias = "default"
+  load_config_file = "false"
 }
 
 resource "google_service_account_key" "mykey" {
