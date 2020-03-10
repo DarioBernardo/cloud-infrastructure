@@ -3,6 +3,8 @@ This repo contain a sample infrastructure to connect a kubernetes cluster and a 
 
  - `gke` module contains:
     - `google_container_cluster`
+    - `kubernetes_secret`
+    - `google_service_account_key`
     - a "kubernetes" provider
  - `database` module contains:
     - `google_sql_database_instance`
@@ -57,7 +59,8 @@ If you want to delete:
 terraform destroy
 ```
 ## NOTE:
-if you want  to use the cloud trigger and `cloudbuild.yaml`, you need to set up a  _PROJECT_ID env variable.
+if you want to use the cloud trigger and `cloudbuild.yaml`, you need to set up all variables such as `_PROJECT_ID`.
+See `terraform.tfvars` for full list of vars to autofill.
 
 ## NOTE 2: 
 If you  are using cloud build trigger and `cloudbuild.yaml`. 
