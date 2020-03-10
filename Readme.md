@@ -57,7 +57,8 @@ If you want to delete:
 terraform destroy
 ```
 ## NOTE:
-if you want  to use the cloud trigger and `cloudbuild.yaml`, you need to set up a  _PROJECT_ID env variable.
+if you want to use the cloud trigger and `cloudbuild.yaml`, you need to set up all variables such as `_PROJECT_ID`.
+See `terraform.tfvars` for full list of vars to autofill.
 
 ## NOTE 2: 
 If you  are using cloud build trigger and `cloudbuild.yaml`. 
