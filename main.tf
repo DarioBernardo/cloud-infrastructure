@@ -1,8 +1,7 @@
 terraform {
   backend "gcs" {
     bucket = "nlp-infrastructure-state"
-//    prefix = "example/_ENV_"
-    prefix = "example/with_sidecar_no_vpc"
+    prefix = "example/_ENV_"
 //    prefix = "example/master"
   }
 }
