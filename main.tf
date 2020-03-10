@@ -1,8 +1,17 @@
 terraform {
   backend "gcs" {
     bucket = "nlp-infrastructure-state"
-//    prefix = "example/_ENV_"
-    prefix = "example/dev"
+    prefix = "app_name"
+  }
+}
+
+data "terraform_remote_state" "project_id" {
+  backend   = "gcs"
+  workspace = terraform.workspace
+
+  config = {
+    bucket = "nlp-infrastructure-state"
+    prefix = "terraform-project-states"
   }
 }
 
@@ -28,23 +37,23 @@ module "database" {
   database-schema-name       = var.database-schema-name
 }
 
-module "kubernetes-cluster" {
-  source = "./gke"
-  region = var.region
-  cluster-name = var.cluster-name
-  cluster-username = var.cluster-username
-  cluster-password = var.cluster-password
-  project-id = var.project-id
-  credentials-email = var.credentials-email
-  }
-
-//module "storage" {
-//  source = "./storage"
+//module "kubernetes-cluster" {
+//  source = "./gke"
 //  region = var.region
+//  cluster-name = var.cluster-name
+//  cluster-username = var.cluster-username
+//  cluster-password = var.cluster-password
 //  project-id = var.project-id
-//  bucket-name = var.bucket-name
-//}
-//
+//  credentials-email = var.credentials-email
+//  }
+
+module "storage" {
+  source = "./storage"
+  region = var.region
+  project-id = var.project-id
+  bucket-name = var.bucket-name
+}
+
 //module "pub-sub" {
 //  source = "./pub_sub"
 //  region = var.region
